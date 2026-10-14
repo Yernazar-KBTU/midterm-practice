@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Midterm Big Practice Test</title>
+<style>
+/* Layout: one reading column; sticky score bar on top; each Part is a bordered "exam sheet" with a navy rule like the printed test */
+:root{
+  --bg:#f6f8fc; --paper:#ffffff; --ink:#15192a; --muted:#5a6280;
+  --navy:#1f3b73; --head:#dce4f2; --line:#b9c2d6;
+  --ok:#1d7a46; --ok-bg:#e3f4ea; --bad:#b3261e; --bad-bg:#fbe6e4; --half:#8a5a00; --half-bg:#fff2d6;
+  --input:#ffffff;
+  --sans:Arial,"Helvetica Neue","Liberation Sans","DejaVu Sans",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1320; --paper:#171c2c; --ink:#e7eaf4; --muted:#9aa3bf;
+  --navy:#8fb0ee; --head:#24304d; --line:#34405e;
+  --ok:#6fd39a; --ok-bg:#163526; --bad:#ff8a80; --bad-bg:#3a1c1b; --half:#f2c26b; --half-bg:#3a2e14;
+  --input:#11162a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1320; --paper:#171c2c; --ink:#e7eaf4; --muted:#9aa3bf;
+  --navy:#8fb0ee; --head:#24304d; --line:#34405e;
+  --ok:#6fd39a; --ok-bg:#163526; --bad:#ff8a80; --bad-bg:#3a1c1b; --half:#f2c26b; --half-bg:#3a2e14;
+  --input:#11162a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans)}
+.wrap{max-width:920px;margin:0 auto;padding-inline:16px;padding-block:0 48px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:2px solid var(--navy)}
+.bar .in{max-width:920px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.bar h1{font-size:17px;margin:0;color:var(--navy);flex:1 1 220px;text-wrap:balance}
+.score{font-variant-numeric:tabular-nums;font-weight:bold;font-size:15px}
+.score small{font-weight:normal;color:var(--muted)}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{color:var(--navy);text-decoration:none;border:1px solid var(--line);border-radius:4px;padding:3px 9px;font-size:13px;font-variant-numeric:tabular-nums}
+nav a:hover,nav a:focus-visible{background:var(--head)}
+button{font:inherit;cursor:pointer;border-radius:4px;padding:8px 16px;border:1px solid var(--navy)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+.primary{background:var(--navy);color:var(--paper);font-weight:bold}
+.ghost{background:transparent;color:var(--navy)}
+.hint{color:var(--muted);font-size:13.5px;margin:4px 0 0}
+section{background:var(--paper);border:1px solid var(--line);margin-top:22px;padding:18px 18px 20px;scroll-margin-top:80px}
+h2{margin:0 0 4px;font-size:20px;color:var(--navy);border-bottom:2px solid var(--navy);padding-bottom:4px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;text-wrap:balance}
+h2 .pts{font-size:14px;color:var(--muted);font-weight:normal;font-variant-numeric:tabular-nums;align-self:end}
+h3{color:var(--navy);font-size:16px;margin:18px 0 6px}
+.instr{margin:8px 0 12px}
+.rows{border:1px solid var(--line)}
+.row{display:grid;grid-template-columns:34px minmax(0,1fr) minmax(0,15rem);border-top:1px solid var(--line)}
+.row.head{background:var(--head);font-weight:bold;border-top:0}
+.row>div{padding:8px 10px;min-width:0}
+.row>div+div{border-left:1px solid var(--line)}
+.num{font-variant-numeric:tabular-nums;color:var(--muted)}
+.ex{margin-top:3px}
+.ex i{font-style:normal;color:var(--muted)}
+.pat{font-family:"DejaVu Sans Mono",Menlo,Consolas,monospace;font-size:12.5px;color:var(--muted);letter-spacing:.04em;margin-bottom:5px;white-space:nowrap;overflow-x:auto}
+input[type=text],textarea{width:100%;font:inherit;color:var(--ink);background:var(--input);border:1px solid var(--line);border-radius:3px;padding:6px 8px}
+textarea{min-height:58px;resize:vertical}
+.multi{display:flex;gap:6px}
+.res{margin-top:6px;font-size:13.5px;border-radius:3px;padding:4px 7px}
+.res.ok{background:var(--ok-bg);color:var(--ok)}
+.res.bad{background:var(--bad-bg);color:var(--bad)}
+.res.half{background:var(--half-bg);color:var(--half)}
+input.ok{border-color:var(--ok);box-shadow:inset 0 0 0 1px var(--ok)}
+input.bad{border-color:var(--bad);box-shadow:inset 0 0 0 1px var(--bad)}
+input.half{border-color:var(--half);box-shadow:inset 0 0 0 1px var(--half)}
+.key{margin-top:7px;padding:7px 9px;background:var(--head);border-radius:3px;font-size:14px}
+.key label{display:flex;gap:8px;align-items:flex-start;margin-top:3px;cursor:pointer}
+.key input{margin-top:4px;accent-color:var(--navy)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.partscore{font-weight:bold;font-variant-numeric:tabular-nums}
+.text{border-left:3px solid var(--navy);padding:8px 12px;background:var(--bg);margin:6px 0 12px;line-height:1.65}
+.drow{display:grid;grid-template-columns:34px minmax(0,1fr) minmax(0,1fr);border-top:1px solid var(--line)}
+.drow.head{background:var(--head);font-weight:bold;border-top:0}
+.drow>div{padding:7px 10px;min-width:0}
+.drow>div+div{border-left:1px solid var(--line)}
+.dkey .row{grid-template-columns:34px minmax(0,1fr) minmax(0,1fr) 10.5rem}
+.why{color:var(--muted);font-size:13px}
+.small{padding:4px 10px;font-size:13px}
+.restart{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+.total{margin-top:22px;background:var(--paper);border:2px solid var(--navy);padding:16px 18px}
+.total table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.total td{padding:5px 8px;border-top:1px solid var(--line)}
+.total td:last-child{text-align:right}
+.total tr:last-child td{font-weight:bold;border-top:2px solid var(--navy)}
+@media (max-width:640px){
+  .row,.dkey .row{grid-template-columns:30px minmax(0,1fr)}
+  .row>div:nth-child(n+3){grid-column:2;border-left:0;padding-top:0}
+  .row.head>div:nth-child(n+3){display:none}
+  .drow{grid-template-columns:30px minmax(0,1fr)}
+  .drow>div:nth-child(3){grid-column:2;border-left:0;padding-top:0}
+  .drow.head>div:nth-child(3){display:none}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="in">
+  <h1>Midterm big practice test</h1>
+  <nav>
+    <a href="#partA">A <span id="navA"></span></a>
+    <a href="#partB">B <span id="navB"></span></a>
+    <a href="#partC">C <span id="navC"></span></a>
+    <a href="#partD">D <span id="navD"></span></a>
+    <a href="#total">Итог</a>
+  </nav>
+  <div class="restart"><button class="ghost small" id="restartTop">Начать заново</button>
+    <span class="confirm" id="restartConfirm" hidden>Стереть все ответы? <button class="primary small" id="restartYes">Да, стереть</button><button class="ghost small" id="restartNo">Отмена</button></span></div>
+  <div class="score">Баллы: <span id="totScore">0</span> <small>/ <span id="totMax">0</span></small></div>
+</div></div>
+
+<div class="wrap">
+  <p class="hint" style="margin-top:14px">Решай по порядку. Кнопка «Проверить» под каждой частью показывает ответы и баллы. Ответы сохраняются в этом браузере, пока ты их не сбросишь.</p>
+
+  <section id="partA">
+    <h2>Part A: Complete the gap <span class="pts" id="ptsA"></span></h2>
+    <p class="instr">Read the definition and example sentence. Complete the word, using the correct form to fit the example sentence. The first letter and the number of letters are given.</p>
+    <p class="hint">1 балл за верный ответ, 0.5 если есть небольшая ошибка в написании.</p>
+    <div class="rows" id="rowsA"><div class="row head"><div></div><div>Definition and example</div><div>Your answer (word in the gap)</div></div></div>
+    <div class="actions"><button class="primary" data-check="A">Проверить Part A</button><span class="partscore" id="scoreA"></span><button class="ghost" data-reset="A">Стереть Part A</button></div>
+  </section>
+
+  <section id="partB">
+    <h2>Part B: Explain the words in bold <span class="pts" id="ptsB"></span></h2>
+    <p class="instr">Explain what the words in bold mean, in your own words. Use English only. Translations will not get any marks.</p>
+    <p class="hint">2 балла: по 1 за каждую ключевую мысль. После проверки сравни свой ответ с ключом и отметь галочкой мысли, которые у тебя есть.</p>
+    <div class="rows" id="rowsB"><div class="row head"><div></div><div>Sentence</div><div>Your explanation</div></div></div>
+    <div class="actions"><button class="primary" data-check="B">Проверить Part B</button><span class="partscore" id="scoreB"></span><button class="ghost" data-reset="B">Стереть Part B</button></div>
+  </section>
+
+  <section id="partC">
+    <h2>Part C: Prepositions <span class="pts" id="ptsC"></span></h2>
+    <p class="instr">Write the correct preposition in each gap. If no preposition is needed, write X.</p>
+    <p class="hint">1 балл за ответ. Если пропусков два, заполни оба поля.</p>
+    <div class="rows" id="rowsC"><div class="row head"><div></div><div>Sentence</div><div>Answer</div></div></div>
+    <div class="actions"><button class="primary" data-check="C">Проверить Part C</button><span class="partscore" id="scoreC"></span><button class="ghost" data-reset="C">Стереть Part C</button></div>
+  </section>
+
+  <section id="partD">
+    <h2>Part D: Correct the mistakes <span class="pts" id="ptsD"></span></h2>
+    <p class="instr">Each text below contains 10 mistakes. Find them and write them in the table. In the Mistake column, copy the short phrase that contains the mistake (2–4 words). In the Correction column, write the phrase again correctly. You may make no more than 10 corrections per text. Some sentences contain no mistakes. The figures describe fictional countries.</p>
+    <p class="hint">2 балла за ошибку: 1 за то, что нашёл, 1 за исправление. После проверки сайт сам отмечает совпавшие исправления. Проверь галочки и поправь, если нужно.</p>
+    <div id="textsD"></div>
+    <div class="actions"><button class="ghost" data-reset="D">Стереть Part D</button></div>
+  </section>
+
+  <div class="total" id="total">
+    <h2 style="border:0">Итог</h2>
+    <table><tbody id="totTable"></tbody></table>
+    <div class="actions">
+      <button class="ghost" id="resetBtn">Начать заново: стереть все ответы</button>
+      <span class="confirm" id="resetConfirm" hidden>Стереть все ответы и баллы?
+        <button class="primary" id="resetYes">Да, стереть</button><button class="ghost" id="resetNo">Отмена</button></span>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = {"A": [{"f": "Media consumption", "def": "To take in media content in a general sense — watching, reading or listening.", "ex": "Teenagers {} far more media on their phones than on TV.", "ans": "consume"}, {"f": "Media consumption", "def": "Watched or listened to a broadcast at the time it was shown.", "ex": "Over two million people {} in to the final on Saturday.", "ans": "tuned"}, {"f": "Media consumption", "def": "Pays regular attention to updates on a topic or a person.", "ex": "She {} the election results closely every night.", "ans": "follows"}, {"f": "Media consumption", "def": "Stay informed and up to date as something develops.", "ex": "There is so much news that it is hard to {} with it all.", "ans": "keep up"}, {"f": "Media consumption", "def": "Give someone information about something they missed.", "ex": "I missed the meeting. Can you {} me in on what happened?", "ans": "fill"}, {"f": "Media consumption", "def": "Signed up to receive regular content, often for a fee.", "ex": "Last year I {} to three streaming services.", "ans": "subscribed"}, {"f": "Media consumption", "def": "Continue using or choosing something instead of changing.", "ex": "I will {} with my old phone for another year.", "ans": "stick"}, {"f": "Media consumption", "def": "Managed to watch something, almost missing it.", "ex": "I was late, but I {} the last ten minutes of the match.", "ans": "caught"}, {"f": "Media consumption", "def": "Stopped something temporarily, to continue it later.", "ex": "She {} the film to answer the door.", "ans": "paused"}, {"f": "Media consumption", "def": "Went back to an earlier point in a recording.", "ex": "He {} the video to hear the joke again.", "ans": "rewound"}, {"f": "Media consumption", "def": "Moved quickly through a recording, skipping the parts in between.", "ex": "The first half was so boring that I {} to the end.", "ans": "fast-forwarded"}, {"f": "Media consumption", "def": "Jump straight past something without watching any of it.", "ex": "Most viewers {} the adverts as soon as they can.", "ans": "skip"}, {"f": "Media consumption", "def": "Watch or listen over the internet without downloading.", "ex": "We {} most of our films directly from the app.", "ans": "stream"}, {"f": "Media consumption", "def": "Moving quickly down a page or feed, looking briefly at it.", "ex": "She kept {} through Instagram during the lecture.", "ans": "scrolling"}, {"f": "Media consumption", "def": "Watched several episodes one after another, in one sitting.", "ex": "We {} the whole season in one weekend.", "ans": "binge-watched"}, {"f": "Media consumption", "def": "Watch or read something occasionally, not from start to finish.", "ex": "I don’t watch every episode; I just {} in and out of the series.", "ans": "dip"}, {"f": "Binge-watching", "def": "Move naturally towards something because you are attracted to it.", "ex": "Younger viewers tend to {} towards short videos.", "ans": "gravitate"}, {"f": "Binge-watching", "def": "Gently pushes or encourages someone to do something.", "ex": "The app {} you to watch one more episode.", "ans": "nudges"}, {"f": "Binge-watching", "def": "Became involved in something without meaning to.", "ex": "I got {} into a three-hour YouTube spiral.", "ans": "sucked"}, {"f": "Binge-watching", "def": "The least likely person to do something.", "ex": "I would be the {} person to tell you to stop watching TV.", "ans": "last"}, {"f": "Binge-watching", "def": "Caused something to start or happen.", "ex": "The violent scene {} a strong emotional reaction.", "ans": "triggered"}, {"f": "Binge-watching", "def": "Find time for something, even when you are busy.", "ex": "You need to make {} for revision before the test.", "ans": "time"}, {"f": "Binge-watching", "def": "Helping something to happen by creating good conditions.", "ex": "A noisy flat is not {} to studying.", "ans": "conducive"}, {"f": "Binge-watching", "def": "Become calm again after strong excitement.", "ex": "After a horror film it takes me hours to {} down from it.", "ans": "come"}, {"f": "Binge-watching", "def": "Feel similar to someone and understand their feelings.", "ex": "Many viewers {} with the main character.", "ans": "identify"}, {"f": "Binge-watching", "def": "Understand someone’s feelings because you have had a similar experience.", "ex": "Most students can {} to this problem.", "ans": "relate"}, {"f": "Binge-watching", "def": "Notice the difference between two things.", "ex": "Babies can {} between different voices.", "ans": "discriminate"}, {"f": "The Up Series", "def": "Willing to say publicly what you think, even when it is unpopular.", "ex": "She has always been {} about pay in the industry.", "ans": "outspoken"}, {"f": "The Up Series", "def": "Was broadcast on TV or radio.", "ex": "The first episode {} in 1964.", "ans": "aired"}, {"f": "The Up Series", "def": "Criticised harshly and publicly, often unfairly.", "ex": "He was {} by the tabloids for a decision that wasn’t his.", "ans": "vilified"}, {"f": "The Up Series", "def": "Harsh, unfair public criticism of someone (noun).", "ex": "His {} by the press was totally unjustified.", "ans": "vilification"}, {"f": "The Up Series", "def": "Bitter, cruel criticism, full of hatred.", "ex": "The comments under the video were pure {}.", "ans": "vitriol"}, {"f": "The Up Series", "def": "Bitter, cruel and full of hatred (adjective).", "ex": "There was no need for such a {} attack on his character.", "ans": "vitriolic"}, {"f": "The Up Series", "def": "Shocking or unreasonable in a way that makes people angry.", "ex": "It is {} that a company this size pays so little tax.", "ans": "outrageous"}, {"f": "The Up Series", "def": "A strong feeling of anger and shock (noun).", "ex": "There has been public {} over the new tax.", "ans": "outrage"}, {"f": "The Up Series", "def": "Very angry and shocked (adjective).", "ex": "I’m absolutely {} by how badly he’s been treated.", "ans": "outraged"}, {"f": "The Up Series", "def": "Following a fixed pattern so closely that it is predictable and dull.", "ex": "Every episode is the same — the series has become {}.", "ans": "formulaic"}, {"f": "The Up Series", "def": "To put someone in their ___: remind them sharply that they are less important than they think.", "ex": "She put him in his {} with one sentence.", "ans": "place"}, {"f": "The Up Series", "def": "Completely and directly, without any discussion.", "ex": "She refused {} to answer questions about her family.", "ans": "point blank"}, {"f": "The Up Series", "def": "The act of saying no to something (noun).", "ex": "Her point blank {} came as a shock.", "ans": "refusal"}, {"f": "The Up Series", "def": "Showed someone a way of life they had never seen before.", "ex": "That first job opened up a whole different {} to me.", "ans": "world"}, {"f": "The Up Series", "def": "Made sweeping changes to an organisation.", "ex": "The new director {} things up.", "ans": "shook"}, {"f": "The Up Series", "def": "A big change to an organisation (noun).", "ex": "The department needs a major {}.", "ans": "shake-up"}, {"f": "The Up Series", "def": "To pull the ___ on something: stop funding it so that it ends.", "ex": "The channel pulled the {} on the show after two seasons.", "ans": "plug"}, {"f": "The Up Series", "def": "To open your mouth without ___ your brain: speak without thinking first.", "ex": "I sometimes open my mouth without {} my brain.", "ans": "engaging"}, {"f": "The Economy", "def": "Compared with the same period one year earlier.", "ex": "Prices rose 8% {} in March.", "ans": "year-on-year"}, {"f": "The Economy", "def": "An effect where one increase in spending leads to further increases in the economy.", "ex": "New roads can have a {} effect on the local economy.", "ans": "multiplier"}, {"f": "The Economy", "def": "Incomes adjusted for inflation.", "ex": "When prices rise faster than wages, {} incomes fall.", "ans": "real"}, {"f": "The Economy", "def": "A general rise in prices.", "ex": "{} stood at 9% in December.", "ans": "inflation"}, {"f": "The Economy", "def": "The amount of money needed to pay for basic things.", "ex": "The {} of living has risen sharply this year.", "ans": "cost"}, {"f": "The Economy", "def": "The level of comfort and wealth people have.", "ex": "Living {} have improved since 2010.", "ans": "standards"}, {"f": "The Economy", "def": "A reduction in the speed of growth (noun).", "ex": "There has been a {} in economic growth.", "ans": "slowdown"}, {"f": "The Economy", "def": "A period when something stops increasing and stays at the same level.", "ex": "After years of rapid growth, sales have reached a {}.", "ans": "plateau"}, {"f": "Describing trends", "def": "Went up (past simple) — used for rates, prices and levels.", "ex": "Inflation {} to 9% last year.", "ans": "rose"}, {"f": "Describing trends", "def": "Gone up (past participle).", "ex": "Prices have {} by 5% since January.", "ans": "risen"}, {"f": "Describing trends", "def": "Went down (past simple).", "ex": "Unemployment {} to 4.8% in March.", "ans": "fell"}, {"f": "Describing trends", "def": "Gone down (past participle).", "ex": "Real incomes have {} for three years in a row.", "ans": "fallen"}, {"f": "Describing trends", "def": "Became bigger (past simple) — used for an economy, sector or total.", "ex": "The economy {} by 3% in 2024.", "ans": "grew"}, {"f": "Describing trends", "def": "Become bigger (past participle).", "ex": "Exports have {} steadily since 2020.", "ans": "grown"}, {"f": "Describing trends", "def": "Became smaller (past simple).", "ex": "The mining sector {} by 10% last year.", "ans": "shrank"}, {"f": "Describing trends", "def": "Become smaller (past participle).", "ex": "The economy has {} for two years in a row.", "ans": "shrunk"}, {"f": "Describing trends", "def": "An increase in size (uncountable noun, no article).", "ex": "There was steady {} in exports.", "ans": "growth"}, {"f": "Describing trends", "def": "A decrease in the size of an economy (noun).", "ex": "There was a sharp {} in the economy.", "ans": "contraction"}, {"f": "Describing trends", "def": "Rose steadily over a period of time.", "ex": "Unemployment {} steadily over five years.", "ans": "climbed"}, {"f": "Describing trends", "def": "Rose suddenly and by a large amount.", "ex": "Shares {} 9% on Tuesday.", "ans": "jumped"}, {"f": "Describing trends", "def": "Decreased gradually (formal).", "ex": "Sales {} gradually over the decade.", "ans": "declined"}, {"f": "Describing trends", "def": "Fell, often suddenly.", "ex": "Prices {} suddenly in March.", "ans": "dropped"}, {"f": "Describing trends", "def": "So small that it hardly matters.", "ex": "The rise in prices was {}.", "ans": "negligible"}, {"f": "Describing trends", "def": "By a small amount (adverb).", "ex": "Inflation rose only {}.", "ans": "slightly"}, {"f": "Describing trends", "def": "Neither big nor small (adjective).", "ex": "There was a {} fall in real incomes.", "ans": "moderate"}, {"f": "Describing trends", "def": "By a large amount, big enough to be worth reporting (adverb).", "ex": "Exports rose {} in the first half of the year.", "ans": "significantly"}, {"f": "Describing trends", "def": "By a very large, striking amount (adverb).", "ex": "Output fell {} in the third quarter.", "ans": "dramatically"}, {"f": "Describing trends", "def": "Slowly, over a long period (adverb).", "ex": "Unemployment fell {} over ten years.", "ans": "gradually"}, {"f": "Describing trends", "def": "At the same rate all the way (adverb).", "ex": "Output rose {} through 2024 and 2025.", "ans": "steadily"}, {"f": "Describing trends", "def": "Suddenly and by a lot (adverb).", "ex": "Share prices rose {} in January.", "ans": "sharply"}, {"f": "Describing trends", "def": "Happening all at once (adjective).", "ex": "There was a {} drop in sales in May.", "ans": "sudden"}, {"f": "Describing trends", "def": "With a rate that keeps changing (adjective).", "ex": "There was an {} rise in sales over the year.", "ans": "uneven"}], "B": [{"s": "Young people **consume media** mostly on their phones.", "term": "to consume media", "k1": "to take in media content", "k2": "in a general sense (watching, reading, listening)", "f": "Media consumption"}, {"s": "Millions **tuned in to** the final on Saturday.", "term": "to tune in to", "k1": "to watch or listen to a broadcast", "k2": "at the time it is shown", "f": "Media consumption"}, {"s": "I **follow** the football results every week.", "term": "to follow", "k1": "to pay regular attention to updates", "k2": "on a topic or a person", "f": "Media consumption"}, {"s": "I can’t **keep up with** all the news.", "term": "to keep up with", "k1": "to stay informed / up to date", "k2": "as something develops", "f": "Media consumption"}, {"s": "Can you **fill me in on** what happened?", "term": "to fill someone in on", "k1": "to give someone information", "k2": "about something they missed", "f": "Media consumption"}, {"s": "I **subscribe to** two streaming services.", "term": "to subscribe to", "k1": "to sign up to receive regular content", "k2": "often for a fee", "f": "Media consumption"}, {"s": "In the end, I decided to **stick with** my old mobile provider.", "term": "to stick with", "k1": "to continue using or choosing something", "k2": "instead of changing to something else", "f": "Media consumption"}, {"s": "Did you **catch** the interview last night?", "term": "to catch", "k1": "to manage to watch or hear something", "k2": "that you almost missed", "f": "Media consumption"}, {"s": "Can you **pause** the film for a second?", "term": "to pause", "k1": "to stop something temporarily", "k2": "so you can continue later", "f": "Media consumption"}, {"s": "**Rewind** it, I didn’t hear what she said.", "term": "to rewind", "k1": "to go back", "k2": "to an earlier point in a recording", "f": "Media consumption"}, {"s": "We **fast-forwarded** through the boring parts.", "term": "to fast-forward", "k1": "to move quickly through a recording", "k2": "skipping the parts in between", "f": "Media consumption"}, {"s": "I always **skip** the introduction.", "term": "to skip", "k1": "to jump straight past something", "k2": "without watching or listening to any of it", "f": "Media consumption"}, {"s": "We **stream** most of our films now.", "term": "to stream", "k1": "to watch or listen over the internet", "k2": "in real time, without downloading", "f": "Media consumption"}, {"s": "He was **scrolling** through his feed all evening.", "term": "to scroll", "k1": "to move quickly down a page or feed", "k2": "looking briefly at what is there", "f": "Media consumption"}, {"s": "I **binge-watched** the whole series in two days.", "term": "to binge-watch", "k1": "to watch several episodes", "k2": "one after another, in one sitting", "f": "Media consumption"}, {"s": "I **dip in and out of** the news during the day.", "term": "to dip in and out of", "k1": "to watch or read something occasionally", "k2": "not continuously or from start to finish", "f": "Media consumption"}, {"s": "Children often **gravitate towards** bright colours.", "term": "to gravitate towards", "k1": "to move naturally towards something", "k2": "because you are attracted to it", "f": "Binge-watching"}, {"s": "Netflix **nudges** you to watch another episode.", "term": "to nudge", "k1": "to gently push or encourage someone", "k2": "to do something", "f": "Binge-watching"}, {"s": "I **got sucked into** a long argument online.", "term": "to get sucked into", "k1": "to become involved in something", "k2": "without meaning to / without being able to stop", "f": "Binge-watching"}, {"s": "I’d **be the last person to** criticise binge-watching.", "term": "to be the last person to", "k1": "to be the least likely person", "k2": "to do something", "f": "Binge-watching"}, {"s": "The scene **triggered** a strong emotional reaction.", "term": "to trigger", "k1": "to cause something", "k2": "to start or happen", "f": "Binge-watching"}, {"s": "Try to **make time for** exercise every day.", "term": "to make time for", "k1": "to find time for something", "k2": "even when you are busy", "f": "Binge-watching"}, {"s": "A quiet room is **conducive to** studying.", "term": "conducive to", "k1": "helping something to happen", "k2": "by creating good conditions", "f": "Binge-watching"}, {"s": "It took me hours to **come down from** the excitement.", "term": "to come down from", "k1": "to become calm again", "k2": "after strong excitement", "f": "Binge-watching"}, {"s": "I really **identify with** the narrator.", "term": "to identify with", "k1": "to feel similar to someone", "k2": "and understand their feelings", "f": "Binge-watching"}, {"s": "Many students can **relate to** this problem.", "term": "to relate to", "k1": "to understand someone’s feelings or situation", "k2": "because you have had a similar experience", "f": "Binge-watching"}, {"s": "Babies can **discriminate between** different voices.", "term": "to discriminate between", "k1": "to notice / recognise the difference", "k2": "between two things", "f": "Binge-watching"}, {"s": "She has always been **outspoken** about politics.", "term": "outspoken", "k1": "willing to say publicly what you think", "k2": "even when it is unpopular", "f": "The Up Series"}, {"s": "The programme first **aired** in 1964.", "term": "to air", "k1": "to be broadcast", "k2": "on TV or radio", "f": "The Up Series"}, {"s": "He was **vilified** by the right-wing press.", "term": "to vilify", "k1": "to criticise someone harshly and publicly", "k2": "often unfairly / by many people at once", "f": "The Up Series"}, {"s": "He was shocked by the **vitriol** in the comments.", "term": "vitriol", "k1": "criticism or language", "k2": "bitter, cruel or full of hatred", "f": "The Up Series"}, {"s": "It’s **outrageous** that tickets cost so much.", "term": "outrageous", "k1": "shocking or unreasonable", "k2": "in a way that makes people angry", "f": "The Up Series"}, {"s": "The show had become a little **formulaic**.", "term": "formulaic", "k1": "following a fixed pattern", "k2": "so it is predictable and dull", "f": "The Up Series"}, {"s": "She **put him in his place** with one sentence.", "term": "to put someone in their place", "k1": "to remind someone sharply", "k2": "that they are less important / know less than they think", "f": "The Up Series"}, {"s": "She **refused point blank** to answer.", "term": "to refuse point blank", "k1": "to refuse completely and directly", "k2": "without explanation or discussion", "f": "The Up Series"}, {"s": "University **opened up a whole different world** to me.", "term": "to open up a whole different world to someone", "k1": "to show someone a way of life", "k2": "they had never seen before", "f": "The Up Series"}, {"s": "The new manager really **shook things up**.", "term": "to shake things up", "k1": "to make big, sweeping changes", "k2": "to an organisation or way of doing things", "f": "The Up Series"}, {"s": "The bank **pulled the plug on** the project.", "term": "to pull the plug on", "k1": "to stop supporting or funding something", "k2": "so that it ends", "f": "The Up Series"}, {"s": "Sometimes I **open my mouth without engaging my brain**.", "term": "to open your mouth without engaging your brain", "k1": "to say something", "k2": "without thinking first", "f": "The Up Series"}, {"s": "After years of rapid growth, the economy has reached a **plateau**.", "term": "a plateau", "k1": "stops increasing / stays at the same level", "k2": "after a period of growth", "f": "The Economy"}, {"s": "The rise in prices was **negligible**.", "term": "negligible", "k1": "very small", "k2": "so small that it hardly matters", "f": "Describing trends"}], "C": [{"s": "I subscribe ………… three podcasts.", "ans": "to", "f": "Media consumption"}, {"s": "Did you catch ………… the news last night?", "ans": "X", "f": "Media consumption"}, {"s": "It’s hard to keep up ………… the news.", "ans": "with", "f": "Media consumption"}, {"s": "Over a million people tuned in ………… the final.", "ans": "to", "f": "Media consumption"}, {"s": "We stream ………… most of our films.", "ans": "X", "f": "Media consumption"}, {"s": "Can you fill me in ………… the plan?", "ans": "on", "f": "Media consumption"}, {"s": "I just dip in and out ………… the series.", "ans": "of", "f": "Media consumption"}, {"s": "I binge-watched ………… the whole series.", "ans": "X", "f": "Media consumption"}, {"s": "I’ll stick ………… my old laptop.", "ans": "with", "f": "Media consumption"}, {"s": "Most people skip ………… the adverts.", "ans": "X", "f": "Media consumption"}, {"s": "Teenagers gravitate ………… short videos.", "ans": "towards", "f": "Binge-watching"}, {"s": "Can you pause ………… the video?", "ans": "X", "f": "Media consumption"}, {"s": "I really identify ………… the main character.", "ans": "with", "f": "Binge-watching"}, {"s": "Rewind ………… it, I didn’t hear that.", "ans": "X", "f": "Media consumption"}, {"s": "Many students can relate ………… this problem.", "ans": "to", "f": "Binge-watching"}, {"s": "We consume ………… more media than ever.", "ans": "X", "f": "Media consumption"}, {"s": "Babies can discriminate ………… different voices.", "ans": "between", "f": "Binge-watching"}, {"s": "I follow ………… the football results every week.", "ans": "X", "f": "Media consumption"}, {"s": "A quiet room is conducive ………… studying.", "ans": "to", "f": "Binge-watching"}, {"s": "I got sucked ………… a long argument online.", "ans": "into", "f": "Binge-watching"}, {"s": "You need to make time ………… revision.", "ans": "for", "f": "Binge-watching"}, {"s": "It takes a while to come down ………… the excitement.", "ans": "from", "f": "Binge-watching"}, {"s": "The bank pulled the plug ………… the project.", "ans": "on", "f": "The Up Series"}, {"s": "She put him ………… his place.", "ans": "in", "f": "The Up Series"}, {"s": "Travel opened up a whole different world ………… me.", "ans": "to", "f": "The Up Series"}, {"s": "Wages are lagging ………… prices.", "ans": "behind", "f": "The Economy"}, {"s": "There has been a rise ………… unemployment.", "ans": "in", "f": "The Economy"}, {"s": "Prices rose ………… 5% last year (100 → 105).", "ans": "by", "f": "Describing trends"}, {"s": "Output rose ………… 12.6tn tenge (12.1tn → 12.6tn).", "ans": "to", "f": "Describing trends"}, {"s": "Inflation fell ………… 11% ………… 8%.", "ans": "from … to", "f": "Describing trends"}, {"s": "Unemployment stands ………… 4.8%.", "ans": "at", "f": "Describing trends"}, {"s": "There was a rise ………… 5% ………… prices.", "ans": "of … in", "f": "Describing trends"}], "D": [{"title": "Text 1: Northland, 2024", "text": "The data for Northland in 2024 saw a difficult year. The economy rose by only 1.2%, and the construction sector shrinked sharply. Inflation stood on 12% in June, but unemployment remained stable at 5%. There was a growth in exports, which rose by 6% to $52bn. The first half of the year experienced a sudden drop in retail sales. Prices rose steadyly throughout the year, and real incomes fell by 2%. The interest rate fell from 8% to 5%, a fall of 3%. There was a very moderate rise in wages, and the mining sector saw a contraction. Share prices rised in December.", "errs": [{"m": "the data saw", "c": "the data showed", "why": "Saw can’t take “the data” as its subject."}, {"m": "the economy rose", "c": "the economy grew", "why": "An economy has a size, so it grows."}, {"m": "construction sector shrinked", "c": "construction sector shrank", "why": "shrink – shrank – shrunk"}, {"m": "stood on 12%", "c": "stood at 12%", "why": "Stood at = the level, with no movement."}, {"m": "was a growth", "c": "was growth", "why": "Growth takes no article."}, {"m": "the year experienced", "c": "the year saw", "why": "Experience can’t take a time period."}, {"m": "rose steadyly", "c": "rose steadily", "why": "Spelling: steady → steadily."}, {"m": "a fall of 3%", "c": "a fall of 3 percentage points", "why": "The gap between two percentages = percentage points."}, {"m": "a very moderate rise", "c": "a moderate rise", "why": "Moderate can’t take very."}, {"m": "share prices rised", "c": "share prices rose", "why": "rise – rose – risen"}]}, {"title": "Text 2: Eastland, 2025", "text": "The figures for Eastland in 2025 showed a mixed picture. Unemployment grew in the first quarter, while the economy shrank by 0.5%. The manufacturing sector experienced a sharp fall of output. Inflation jumped from 7.1% to 7.2% in April. Exports showed sharp rise in May, and imports fell by 3% to $40bn. The mining company showed a dramatic fall in profits. Prices climbed on Monday 3 March after the announcement. There was a shrinkage in the agricultural sector. The inflation remained high all year. Wages rose slight in the autumn, and 2025 saw a gradual decline in real incomes. Overall, growth has fell to its lowest level in ten years.", "errs": [{"m": "unemployment grew", "c": "unemployment rose", "why": "Unemployment is a rate, so it rises."}, {"m": "fall of output", "c": "fall in output", "why": "In tells you what changed; of goes before a figure."}, {"m": "inflation jumped", "c": "inflation rose (slightly)", "why": "Jump = a sudden, big rise; 0.1 is tiny."}, {"m": "showed sharp rise", "c": "showed a sharp rise", "why": "Rise is countable, so it needs an article."}, {"m": "company showed", "c": "company experienced / saw", "why": "Show can’t take an entity as its subject."}, {"m": "prices climbed on Monday", "c": "prices jumped on Monday", "why": "Climb = steady movement over a period."}, {"m": "a shrinkage", "c": "a contraction", "why": "The noun for shrink is a contraction."}, {"m": "the inflation", "c": "inflation", "why": "No article with inflation used generally."}, {"m": "rose slight", "c": "rose slightly", "why": "An adverb goes with the verb."}, {"m": "has fell", "c": "has fallen", "why": "fall – fell – fallen"}]}, {"title": "Text 3: Southland, 2023", "text": "The report for Southland in 2023 showed several important changes. The country’s GDP rose by 4.5%. Interest rates grew twice during the year, and the economy experienced steady growth. There was a rise of 8% of exports. Unemployment fell to 3.9%. The tourism sector growed dramaticaly in the summer. Retail sales dropped by $2bn to $18bn. The second quarter showed a significant rise in house prices. Inflation fell from 10% to 6%, so it fell by 4%. The figures saw a slight fall in consumer spending. Oil production stood at 1.2m barrels a day. There was a very dramatic fall in the value of the currency. Real incomes saw steady rise. In the north, unemployment shrank to 2.5%.", "errs": [{"m": "interest rates grew", "c": "interest rates rose", "why": "Interest rates are a rate, so they rise."}, {"m": "of 8% of exports", "c": "of 8% in exports", "why": "In tells you what changed."}, {"m": "tourism sector growed", "c": "tourism sector grew", "why": "grow – grew – grown"}, {"m": "growed dramaticaly", "c": "grew dramatically", "why": "Spelling: dramatic → dramatically."}, {"m": "quarter showed", "c": "quarter saw", "why": "Show can’t take a time period."}, {"m": "fell by 4%", "c": "fell by 4 percentage points", "why": "The gap between two percentages = percentage points."}, {"m": "the figures saw", "c": "the figures showed", "why": "Saw can’t take “the data” as its subject."}, {"m": "a very dramatic fall", "c": "a dramatic fall", "why": "Dramatic can’t take very."}, {"m": "saw steady rise", "c": "saw a steady rise", "why": "Rise is countable, so it needs an article."}, {"m": "unemployment shrank", "c": "unemployment fell", "why": "Unemployment is a rate, so it falls."}]}]};
+const KEY='midterm-big-test-v1';
+let state={};
+try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const bold=s=>esc(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+const norm=s=>String(s||'').toLowerCase().replace(/[‐‑–—]/g,'-').replace(/[’']/g,"'").replace(/\s*-\s*/g,'-').replace(/[.,!?;:"()]/g,' ').replace(/\s+/g,' ').trim();
+function lev(a,b){const m=a.length,n=b.length;if(!m)return n;if(!n)return m;let p=[...Array(n+1).keys()];for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+const $=id=>document.getElementById(id);
+const fmt=n=>(Math.round(n*2)/2).toString().replace('.',',');
+
+function pattern(ans){
+  const words=ans.split(' ');
+  const pat=words.map(w=>w.split('-').map(p=>p[0]+' _'.repeat(p.length-1)).join(' - ')).join('    ');
+  const cnt=words.map(w=>w.split('-').map(p=>p.length).join('-')).join(', ');
+  const gap=words.map(w=>w.split('-').map(p=>p[0]+'________').join('‑')).join(' ');
+  return {pat:pat+'  ('+cnt+')',gap};
+}
+function bindInput(el,id){
+  if(state[id]!==undefined) el.value=state[id];
+  el.addEventListener('input',()=>{state[id]=el.value;save()});
+}
+
+/* ---------- Part A ---------- */
+DATA.A.forEach((q,i)=>{
+  const p=pattern(q.ans), id='a'+i;
+  const r=document.createElement('div');r.className='row';
+  r.innerHTML=`<div class="num">${i+1}</div><div>${esc(q.def)}<div class="ex"><i>Example:</i> ${esc(q.ex.replace('{}',p.gap))}</div></div>
+  <div><div class="pat">${esc(p.pat)}</div><input type="text" id="${id}" autocomplete="off" autocapitalize="off" spellcheck="false"><div id="${id}r"></div></div>`;
+  $('rowsA').appendChild(r); bindInput($(id),id);
+});
+function checkA(){
+  let s=0;
+  DATA.A.forEach((q,i)=>{
+    const el=$('a'+i), v=norm(el.value), a=norm(q.ans), out=$('a'+i+'r');
+    el.classList.remove('ok','bad','half');
+    let pts=0;
+    if(v===a)pts=1; else if(v && lev(v.replace(/[- ]/g,''),a.replace(/[- ]/g,''))<=(a.length<6?1:2)) pts=0.5;
+    if(v===a.replace(/-/g,' ')||v===a.replace(/[- ]/g,'')) pts=Math.max(pts,0.5);
+    s+=pts;
+    el.classList.add(pts===1?'ok':pts?'half':'bad');
+    out.className='res '+(pts===1?'ok':pts?'half':'bad');
+    out.textContent=pts===1?'Верно · 1':(pts?'Почти · 0,5 — правильно: ':'Неверно · 0 — правильно: ')+(pts===1?'':q.ans);
+  });
+  state.sA=s;save();return s;
+}
+
+/* ---------- Part B ---------- */
+DATA.B.forEach((q,i)=>{
+  const id='b'+i;
+  const r=document.createElement('div');r.className='row';
+  r.innerHTML=`<div class="num">${i+1}</div><div>${bold(q.s)}</div>
+  <div><textarea id="${id}" spellcheck="false"></textarea><div class="key" id="${id}k" hidden>
+    <div><strong>${esc(q.term)}</strong></div>
+    <label><input type="checkbox" id="${id}c1"><span>${esc(q.k1)}</span></label>
+    <label><input type="checkbox" id="${id}c2"><span>${esc(q.k2)}</span></label></div></div>`;
+  $('rowsB').appendChild(r); bindInput($(id),id);
+  ['c1','c2'].forEach(c=>{const cb=$(id+c);cb.checked=!!state[id+c];cb.addEventListener('change',()=>{state[id+c]=cb.checked;save();scoreB();renderTotals()})});
+});
+function scoreB(){
+  let s=0;DATA.B.forEach((q,i)=>{if($('b'+i+'c1').checked)s++;if($('b'+i+'c2').checked)s++});
+  state.sB=s;save();$('scoreB').textContent=state.shownB?`Part B: ${s} / ${DATA.B.length*2}`:'';return s;
+}
+function showB(){DATA.B.forEach((q,i)=>$('b'+i+'k').hidden=false);state.shownB=true;save();return scoreB()}
+
+/* ---------- Part C ---------- */
+DATA.C.forEach((q,i)=>{
+  const parts=q.ans.split(' … ');
+  const s=q.s.split('…………');
+  const r=document.createElement('div');r.className='row';
+  let sent=s.map((t,k)=>esc(t)+(k<s.length-1?'<strong>…………</strong>':'')).join('');
+  r.innerHTML=`<div class="num">${i+1}</div><div>${sent}</div><div><div class="multi">${parts.map((_,k)=>`<input type="text" id="c${i}_${k}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="gap ${k+1}">`).join('')}</div><div id="c${i}r"></div></div>`;
+  $('rowsC').appendChild(r);
+  parts.forEach((_,k)=>bindInput($(`c${i}_${k}`),`c${i}_${k}`));
+});
+function checkC(){
+  let s=0;
+  DATA.C.forEach((q,i)=>{
+    const parts=q.ans.split(' … ');let all=true;
+    parts.forEach((a,k)=>{
+      const el=$(`c${i}_${k}`);let v=norm(el.value);
+      const okv=[norm(a)];if(a==='towards')okv.push('toward');if(a==='X')okv.push('x','-','no','none');
+      const ok=okv.includes(v);all=all&&ok;
+      el.classList.remove('ok','bad');el.classList.add(ok?'ok':'bad');
+    });
+    if(all)s++;
+    const out=$('c'+i+'r');out.className='res '+(all?'ok':'bad');out.textContent=all?'Верно · 1':'Неверно · 0 — правильно: '+q.ans;
+  });
+  state.sC=s;save();return s;
+}
+
+/* ---------- Part D ---------- */
+DATA.D.forEach((t,ti)=>{
+  const box=document.createElement('div');
+  let rows=`<div class="drow head"><div></div><div>Mistake</div><div>Correction</div></div>`;
+  for(let k=0;k<10;k++)rows+=`<div class="drow"><div class="num">${k+1}</div><div><input type="text" id="d${ti}m${k}" autocomplete="off" spellcheck="false"></div><div><input type="text" id="d${ti}c${k}" autocomplete="off" spellcheck="false"></div></div>`;
+  let keyRows=`<div class="row head"><div></div><div>Mistake</div><div>Correction</div><div>Баллы</div></div>`;
+  t.errs.forEach((e,k)=>{keyRows+=`<div class="row"><div class="num">${k+1}</div><div>${esc(e.m)}</div><div><strong>${esc(e.c)}</strong><div class="why">${esc(e.why)}</div></div>
+   <div><label style="display:flex;gap:6px"><input type="checkbox" id="d${ti}k${k}a">нашёл</label><label style="display:flex;gap:6px"><input type="checkbox" id="d${ti}k${k}b">исправил</label></div></div>`});
+  box.innerHTML=`<h3>${esc(t.title)}</h3><div class="text">${esc(t.text)}</div><div class="rows">${rows}</div>
+   <div class="actions"><button class="primary" data-checkd="${ti}">Проверить текст ${ti+1}</button><span class="partscore" id="d${ti}s"></span></div>
+   <div class="dkey" id="d${ti}key" hidden><h3>Ключ: ${esc(t.title)}</h3><div class="rows">${keyRows}</div></div>`;
+  $('textsD').appendChild(box);
+  for(let k=0;k<10;k++){bindInput($(`d${ti}m${k}`),`d${ti}m${k}`);bindInput($(`d${ti}c${k}`),`d${ti}c${k}`)}
+  t.errs.forEach((e,k)=>['a','b'].forEach(x=>{const cb=$(`d${ti}k${k}${x}`);cb.checked=!!state[`d${ti}k${k}${x}`];cb.addEventListener('change',()=>{state[`d${ti}k${k}${x}`]=cb.checked;save();scoreD();renderTotals()})}));
+});
+const altForms=c=>c.replace(/\(.*?\)/g,'').split(' / ').map(norm).filter(Boolean);
+function autoD(ti){
+  const t=DATA.D[ti];
+  const users=[...Array(10).keys()].map(k=>({m:norm($(`d${ti}m${k}`).value),c:norm($(`d${ti}c${k}`).value)})).filter(u=>u.m||u.c);
+  t.errs.forEach((e,k)=>{
+    const keyWrong=norm(e.m);
+    let full=altForms(e.c);
+    // second variant when "/" splits only the changed word, e.g. "company experienced / saw"
+    if(e.c.includes(' / ')){const [a,b]=e.c.split(' / ');const head=a.split(' ').slice(0,-1).join(' ');full.push(norm(head+' '+b))}
+    const found=users.some(u=>u.m&&(keyWrong.includes(u.m)||u.m.includes(keyWrong)||lev(u.m,keyWrong)<=2));
+    const fixed=users.some(u=>u.c&&full.some(f=>u.c===f||u.c.includes(f)||(f.includes(u.c)&&u.c.length>3&&f.split(' ').slice(-1)[0]===u.c.split(' ').slice(-1)[0])));
+    const a=$(`d${ti}k${k}a`),b=$(`d${ti}k${k}b`);
+    a.checked=found||fixed;b.checked=fixed;state[a.id]=a.checked;state[b.id]=b.checked;
+  });
+  $(`d${ti}key`).hidden=false;state['shownD'+ti]=true;save();
+}
+function scoreD(){
+  let s=0;DATA.D.forEach((t,ti)=>{let ts=0;t.errs.forEach((e,k)=>{if($(`d${ti}k${k}a`).checked)ts++;if($(`d${ti}k${k}b`).checked)ts++});
+    $(`d${ti}s`).textContent=state['shownD'+ti]?`Текст ${ti+1}: ${ts} / 20`:'';if(state['shownD'+ti])s+=ts});
+  state.sD=s;save();return s;
+}
+
+/* ---------- totals ---------- */
+const MAX={A:DATA.A.length,B:DATA.B.length*2,C:DATA.C.length,D:DATA.D.length*20};
+['A','B','C','D'].forEach(p=>$('pts'+p).textContent=MAX[p]+' marks');
+$('totMax').textContent=MAX.A+MAX.B+MAX.C+MAX.D;
+function renderTotals(){
+  const names={A:'Part A: Complete the gap',B:'Part B: Explain the words',C:'Part C: Prepositions',D:'Part D: Correct the mistakes'};
+  let tot=0,rows='';
+  ['A','B','C','D'].forEach(p=>{const shown=p==='D'?DATA.D.some((_,i)=>state['shownD'+i]):state['shown'+p];const v=shown?(state['s'+p]||0):null;if(v!==null)tot+=v;
+    rows+=`<tr><td>${names[p]}</td><td>${v===null?'не проверено':fmt(v)} / ${MAX[p]}</td></tr>`;
+    $('nav'+p).textContent=v===null?'':`${fmt(v)}/${MAX[p]}`;});
+  rows+=`<tr><td>Всего</td><td>${fmt(tot)} / ${MAX.A+MAX.B+MAX.C+MAX.D}</td></tr>`;
+  $('totTable').innerHTML=rows;$('totScore').textContent=fmt(tot);
+}
+document.querySelectorAll('[data-check]').forEach(b=>b.addEventListener('click',()=>{
+  const p=b.dataset.check;
+  if(p==='A'){const s=checkA();state.shownA=true;$('scoreA').textContent=`Part A: ${fmt(s)} / ${MAX.A}`}
+  if(p==='B'){showB()}
+  if(p==='C'){const s=checkC();state.shownC=true;$('scoreC').textContent=`Part C: ${s} / ${MAX.C}`}
+  save();renderTotals();
+}));
+document.querySelectorAll('[data-checkd]').forEach(b=>b.addEventListener('click',()=>{autoD(+b.dataset.checkd);scoreD();renderTotals()}));
+
+/* restore checked parts */
+if(state.shownA){const s=checkA();$('scoreA').textContent=`Part A: ${fmt(s)} / ${MAX.A}`}
+if(state.shownB){DATA.B.forEach((q,i)=>$('b'+i+'k').hidden=false)}
+scoreB();
+if(state.shownC){const s=checkC();$('scoreC').textContent=`Part C: ${s} / ${MAX.C}`}
+DATA.D.forEach((_,i)=>{if(state['shownD'+i])$(`d${i}key`).hidden=false});
+scoreD();renderTotals();
+
+/* reset: whole test or one part */
+function resetPart(p){
+  const re=new RegExp('^'+p.toLowerCase()+'\\d');
+  Object.keys(state).forEach(k=>{if(re.test(k)||k==='s'+p||k==='shown'+p||(p==='D'&&k.startsWith('shownD')))delete state[k]});
+  save();
+  const sec=document.getElementById('part'+p);
+  sec.querySelectorAll('input[type=text],textarea').forEach(e=>{e.value='';e.classList.remove('ok','bad','half')});
+  sec.querySelectorAll('input[type=checkbox]').forEach(e=>e.checked=false);
+  sec.querySelectorAll('.res').forEach(e=>{e.className='';e.textContent=''});
+  sec.querySelectorAll('.key,.dkey').forEach(e=>e.hidden=true);
+  if(p!=='D')$('score'+p).textContent='';
+  scoreB();scoreD();renderTotals();
+}
+function resetAll(){['A','B','C','D'].forEach(resetPart);state={};save();renderTotals();window.scrollTo(0,0)}
+document.querySelectorAll('[data-reset]').forEach(b=>{
+  const label=b.textContent;let armed=null;
+  b.addEventListener('click',()=>{
+    if(!armed){b.textContent='Точно стереть? Нажми ещё раз';armed=setTimeout(()=>{b.textContent=label;armed=null},4000);return}
+    clearTimeout(armed);armed=null;b.textContent=label;resetPart(b.dataset.reset);
+    document.getElementById('part'+b.dataset.reset).scrollIntoView();
+  });
+});
+function wireConfirm(btn,box,yes,no){
+  $(btn).addEventListener('click',()=>{$(box).hidden=false;$(btn).hidden=true});
+  $(no).addEventListener('click',()=>{$(box).hidden=true;$(btn).hidden=false});
+  $(yes).addEventListener('click',()=>{resetAll();$(box).hidden=true;$(btn).hidden=false});
+}
+wireConfirm('restartTop','restartConfirm','restartYes','restartNo');
+wireConfirm('resetBtn','resetConfirm','resetYes','resetNo');
+</script>
+
+</body>
+</html>
